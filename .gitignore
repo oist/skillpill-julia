@@ -1,5 +1,12 @@
 *.jl.cov
 *.jl.*.cov
 *.jl.mem
-*.png
 deps/deps.jl
+*.vrb
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.gz
+*.toc
