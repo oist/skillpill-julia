@@ -5,7 +5,7 @@
 #------------------------------------------------------------------------------#
 
 # Now we need a typealias for the tree
-abstract BT 
+abstract type BT end
 
 # Type of Binary Tree
 type BTree <: BT
