@@ -10,3 +10,4 @@ deps/deps.jl
 *.snm
 *.gz
 *.toc
+.DS_Store
