@@ -275,16 +275,16 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   Blocks in Julia are not whitespace sensitive and conditionals do not need to be wrapped in round brackets.
   \begin{lstlisting}
   if rand() < 0.5
-    println("Gaston awesome!")
+    println("Gaston is awesome!")
   else
     println("Juan is awesome!")
   end
   
   # Ternary operator: a ? b : c
-  rand() < 0.5 ? println("Gaston great!") : println("Juan great!")
+  rand() < 0.5 ? println("Gaston  is awesome!") : println("Juan  is awesome!")
 \end{lstlisting}
 
-\verb|&&| is the \verb|and| operator, $||$ is the \verb|or| operator. Booleans are \verb|true| and \verb|false|.
+\verb|&&| is the \verb|and| operator, $||$ is the \verb|or| operator.
 \end{frame}
 
 
@@ -307,8 +307,8 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 \end{frame}
 
 \begin{frame}[fragile]{Loops}
-  Julia has \verb|for| and \verb|while| loops. A \verb|while| loop takes a condition and a \verb|for| loop takes a iteratior.
-  One can use \verb|break| to break out of a loop and \verb|continue| to skip to the next iteration. It is noteworthy that a \verb|for| loop can take an arbitrary iterator and even desugar tuples.
+  Julia has \verb|for| and \verb|while| loops. A \verb|while| loop takes a condition and a \verb|for| loop takes an iterator.
+  One can use \verb|break| to break out of a loop and \verb|continue| to skip to the next iteration. %It is noteworthy that a \verb|for| loop can take an arbitrary iterator and even desugar tuples.
   \begin{lstlisting}
   for (i, x) in enumerate(['A', 'B', 'C'])
     if x == 'B'
@@ -318,30 +318,52 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   end
 
   while true
-    # ternary operator ?!
     rand() < 0.1 ? break : println("You are trapped!")
   end
   \end{lstlisting}
 \end{frame}
+
+
+\begin{frame}[fragile]{Loops}
+\begin{block}{Exercise}
+	Create a dictionary that holds integers (up to the value 100) and their squares as key, value pairs.
+\end{block}
+\vfill
+\begin{block}{Solution}
+	\begin{lstlisting}
+  squares = Dict()
+  for i in 1:100
+    squares[i] = i^2
+  end
+  println(squares)
+  
+  # Array comprehension
+  squares_array = [i^2 for i in 1:100]
+	\end{lstlisting}
+\end{block}
+\end{frame}
+
+
+
 \begin{frame}[fragile]{Functions and lambdas}
   Julia uses functions to organize operations. Every function is compiled for the combination of input parameters.
   \begin{lstlisting}
-  """
-      f(x, y)
-
-  `f` will add two numbers together.
-  """
   function f(x, y)
     return x + y
   end
 
   g(x) = x^2
-
-  h = (x)-> 1/x
+  h = x -> 1/x # "anonymous" functions
+  
+  # map takes a function as input and applies that function to every element of the data structure you pass it.
   map(lowercase, ['A', 'B', 'C'])
-  map((x)->x+2, [1, 2, 3])
+  map(x->x+2, [1, 2, 3])
   \end{lstlisting}
+By convention, functions followed by ! alter their contents and functions lacking ! do not, e.g. \verb|sort()| vs. \verb|sort!()|.
 \end{frame}
+
+
+
 \begin{frame}[fragile]{Types}
   Julia's type system allows you to restrict functions to certain types and specialized functions for others.
   You can also create your own types. The names of types are typically captialized while functions are lowercase.
@@ -358,6 +380,8 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   newObject=Object(0,0)
   \end{lstlisting}
 \end{frame}
+
+
 \begin{frame}[fragile]{Multiple dispatch in a nutshell}
   Julia is not an Object-Oriented programming language so functions do not belong to an object.
   A function is a set of multiple methods each with their own signatures. When you call a function the most specific methods is executed.
@@ -375,6 +399,9 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   \end{lstlisting}
   This becomes really powerful when having multiple argurments and being able to select the most specific method.
 \end{frame}
+
+
+
 \begin{frame}[fragile]{Modules}
   Julia code is organised as modules (namespaces). Module names are capitalised and you can nest modules as well.
 
@@ -388,42 +415,49 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   using Main.MyModule
   \end{lstlisting}
 \end{frame}
+
+
+
 \section{The ecosystem}
 \begin{frame}[fragile]{Installing packages}
-  Julia has an inbuilt package manager called \verb|Pkg|. You can access it from the REPL by entering \verb|]|. Julia packages end in \verb|.jl|
-  and it is customary to refer to them by their full name online, but within Julia you drop the \verb|.jl|.
-  So to install the Julia package \verb|Distributions.jl| in the \verb|REPL| just run:
+  Julia has an inbuilt package manager called \verb|Pkg|. You can access it from the REPL by entering \verb|]|.
+  For example, to install and load the Julia package \verb|Distributions.jl| in the \verb|REPL| just run:
 
   \begin{lstlisting}
+  # Installing a package
   ] add Distributions
+  # Loading it afterwards
+  using Distributions
   \end{lstlisting}
 
   A few other commands:
   \begin{lstlisting}
-  # Updating the installed packages
+  # Updating all installed packages
   ] update
   # What packages are installed?
   ] status
   \end{lstlisting}
-  In order to create your own packages you have to install \verb|PkgDev.jl|.
+  Look \href{https://julialang.org/packages/}{\color{blue} here} for more information about Julia packages.
 \end{frame}
 \begin{frame}{Resources}
 \begin{description}
-	\item[Documentation] \url{https://docs.julialang.org/en/v1.1/}
+	\item[Documentation] \url{https://docs.julialang.org/en/v1.5/}
 	\item[Forum] \url{https://discourse.julialang.org}
-	\item[Issue Tracker] \url{https://github.com/JuliaLang/julia}
-	\item[Downloads] \url{https://julialang.org/downloads/}
-	\item[Packages] \url{https://pkg.julialang.org/}
-	\item \url{https://juliaobserver.com/}
+	\item[GitHub] \url{https://github.com/JuliaLang/julia}
+	\item[Slack] \url{https://julialang.org/slack/}
+	\item[YouTube] \url{https://www.youtube.com/user/JuliaLanguage}
+	\item[Learning] \url{https://julialang.org/learning/}
 \end{description}
+\vfill
+OIST also has a Slack workspace: julia@oist
 \end{frame}
 \begin{frame}{What is next?}
   \begin{block}{Question?!}
-    What do you want to hear learn about?
+    What do you want to hear/learn more about?
   \end{block}
   \begin{description}
-    \item[Next Session] How to use Julia for computation and plotting
-    \item[Next Tuesday] Problem Sets with James
+    \item[Wednesday] How to use Julia for computation and plotting
+    \item[Friday] Problem sets and ???
   \end{description}
 \end{frame}
 
