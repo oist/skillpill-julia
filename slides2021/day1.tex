@@ -152,7 +152,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{A (biased) performance comparision}
+\begin{frame}{A (biased) performance comparison}
   \center
   \includegraphics[width=\linewidth]{benchmarks}
 \end{frame}
@@ -353,7 +353,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   end
 
   g(x) = x^2
-  h = x -> 1/x # "anonymous" functions
+  h = x -> 1/x
   
   # map takes a function as input and applies that function to every element of the data structure you pass it.
   map(lowercase, ['A', 'B', 'C'])
@@ -362,48 +362,80 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 By convention, functions followed by ! alter their contents and functions lacking ! do not, e.g. \verb|sort()| vs. \verb|sort!()|.
 \end{frame}
 
+\begin{frame}[fragile]{Types and multiple dispatch}
+	The \verb|::| operator annotates the type of variables. For example, \verb|x::Int8| means that the value of \verb|x| is an instance of \verb|Int8|. There are abstract types (Integer, Number) and concrete types (Int8, Float64) and their relationships form a type graph.
+	\vspace*{5mm}
+	
+	In Julia a function is a set of multiple methods. Each method is defined for particular argument types and comes with its own implementation. When you call a function the most specific method is executed (dispatched).
+	\begin{lstlisting}
+  h(x::Number) = println("x is most definitly a number.")
+
+  h(x::Integer) = println("x is an integer")
+  
+  h(x::Int8) = println("Specific method for Int8")
+	\end{lstlisting}
+Multiple dispatch makes your code generic and fast!
+\end{frame}
 
 
 \begin{frame}[fragile]{Types}
-  Julia's type system allows you to restrict functions to certain types and specialized functions for others.
-  You can also create your own types. The names of types are typically captialized while functions are lowercase.
+ You can create your own types using \verb|struct|.
   \begin{lstlisting}
-  abstract type Entity end
-  mutable struct Player <: Entity 
-    mass::Float64
-    name::String
+  abstract type Coordinate end
+  
+  mutable struct Cartesian <: Coordinate
     position::Tuple{Float64, Float64}
   end
-  struct Object <: Entity
-    position::Tuple{Float64, Float64}
+  
+  struct Polar <: Coordinate
+    radius::Float64
+    phi::Real
   end
-  newObject=Object(0,0)
+  
+  point = Polar(1,pi)
+  point.radius
   \end{lstlisting}
+Keep in mind:~Julia is not an Object-Oriented programming language so functions do not belong to an object!
+\end{frame}
+
+\begin{frame}[fragile]{Types}
+	\begin{block}{Exercise}
+		Create a struct \verb|Point| with two field names \verb|x,y| both being of type Real. Implement a function \verb|add| that takes two arguments of type \verb|Point| and returns the sum of their x's and the difference of their y's.
+	\end{block}
+	\vfill
+	\begin{block}{Solution}
+		\begin{lstlisting}
+  struct Point
+    x::Real
+    y::Real
+  end
+  
+  function add(arg1::Point, arg2::Point)
+    return arg1.x + arg2.x, arg1.y - arg2.y
+  end
+		\end{lstlisting}
+	\end{block}
 \end{frame}
 
 
-\begin{frame}[fragile]{Multiple dispatch in a nutshell}
-  Julia is not an Object-Oriented programming language so functions do not belong to an object.
-  A function is a set of multiple methods each with their own signatures. When you call a function the most specific methods is executed.
 
-  \begin{lstlisting}
-  function h(x::Number)
-    println("x is most definitly a number.")
-  end
-  function h(x::Integer)
-    println("x is a integer")
-  end
-  function h(x::Int8)
-    println("Specific method for Int8")
-  end
-  \end{lstlisting}
-  This becomes really powerful when having multiple argurments and being able to select the most specific method.
+\begin{frame}[fragile]{Running julia scripts}
+ \begin{lstlisting}
+  # in your command prompt or terminal
+  julia script.jl
+  
+  # inside the REPL
+  include("script.jl")
+\end{lstlisting}
+Working from the REPL is preferred since all methods inside the script are compiled the first time and stay available as long as the session is not closed.\\
+
+\vspace{4mm}
+Try to break your programs down into lots of small specialized functions to really take advantage of the julia compiler and its speed-up.
 \end{frame}
-
 
 
 \begin{frame}[fragile]{Modules}
-  Julia code is organised as modules (namespaces). Module names are capitalised and you can nest modules as well.
+If your julia files are becomming to large, organize them into modules (namespaces). Module names are capitalised and you can nest modules as well.
 
   \begin{lstlisting}
   module MyModule
@@ -412,10 +444,12 @@ By convention, functions followed by ! alter their contents and functions lackin
     g() = "Internal function"
     f() = println(g())
   end
+  
+  # Loading the module in a different file
   using Main.MyModule
   \end{lstlisting}
+Additional advantage: Modules can be precompiled and saved to hard-drive which means precompiled code won't disappear when closing the REPL.
 \end{frame}
-
 
 
 \section{The ecosystem}
