@@ -295,7 +295,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 	\vfill
 	\begin{block}{Solution}
 		\begin{lstlisting}[mathescape]
-  if x > 0 error("x cannot be greater than 0") end
+  if (x > 0) error("x cannot be greater than 0") end
 	
   # Ternary operator		
   x > 0 ? error("x cannot be greater than 0") : nothing
@@ -378,7 +378,7 @@ Multiple dispatch makes your code generic and fast!
 \end{frame}
 
 
-\begin{frame}[fragile]{Types}
+\begin{frame}[fragile]{Types and structs}
  You can create your own types using \verb|struct|.
   \begin{lstlisting}
   abstract type Coordinate end
