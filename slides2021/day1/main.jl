@@ -1,0 +1,3 @@
+using Main.MyModule
+
+f()
