@@ -214,7 +214,7 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
 \end{frame}
 \section{Language syntax and semantics}
 \begin{frame}[fragile]{Variables and datatypes}
-  Julia is a dynamic language and so you can simply create variables in any scope.
+  Julia is a dynamic language and so you can create variables in any scope.
   \begin{Boxx}
   \begin{jllisting}
   x = 1   # x will be of type Int64
@@ -228,13 +228,17 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
   """
   'C' # Character literal
   1.0f0 # Float32 literal
+  #=
+  This is a multiline comment
+  =#
   \end{jllisting}
 \end{Boxx}
-  Use \verb|typeof| to check the type of any variable. Variable names can be unicode and so greek symbols can be used.
-  In the \verb|REPL| and most editors you can insert them by entering their \LaTeX name and press\verb|[Tab]|.
+  Use \verb|typeof(x)| to check the type of any variable \verb|x|.
 \end{frame}
 
 \begin{frame}[fragile]{Variables and datatypes}
+	
+	Variable names can be unicode and so greek symbols can be used. In the \verb|REPL| and most editors you can insert them by entering their \LaTeX name and press\verb|[Tab]|.
 	
 	\begin{block}{Exercise}
 		Create a variable $\lambda$ that stores the value of $\pi$.
@@ -244,13 +248,15 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
 	\end{block}
 	\vfill
 	\begin{block}{Solution}
-		\begin{jllisting}[mathescape]
+		\vspace*{1mm}
+		\begin{jllisting}
   # \lambda + <tab> = \pi + <tab>
-  $\lambda$ = $\pi$
-  typeof($\lambda$)
+  lambda = pi
+  typeof(lambda)
   ?convert
-  convert(Float32, $\lambda$)
+  convert(Float32, lambda)
 		\end{jllisting}
+	\vspace*{1mm}
 	\end{block}
 \end{frame}
 
@@ -309,6 +315,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 	\end{block}
 	\vfill
 	\begin{block}{Solution}
+		\vspace*{1mm}
 		\begin{jllisting}[mathescape]
   if (x > 0) error("x cannot be greater than 0") end
 	
@@ -318,12 +325,14 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   # Short-circuit evaluation
   (x > 0) && error("x cannot be greater than 0")
 		\end{jllisting}
+	\vspace*{1mm}
 	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{Loops}
   Julia has \verb|for| and \verb|while| loops. A \verb|while| loop takes a condition and a \verb|for| loop takes an iterator.
   One can use \verb|break| to break out of a loop and \verb|continue| to skip to the next iteration. %It is noteworthy that a \verb|for| loop can take an arbitrary iterator and even desugar tuples.
+  	\vspace*{3mm}
   \begin{Boxx}
   \begin{jllisting}
   for (i, x) in enumerate(['A', 'B', 'C'])
@@ -347,6 +356,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 \end{block}
 \vfill
 \begin{block}{Solution}
+		\vspace*{1mm}
 	\begin{jllisting}
   squares = Dict()
   for i in 1:100
@@ -357,6 +367,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   # Array comprehension
   squares_array = [i^2 for i in 1:100]
 	\end{jllisting}
+	\vspace*{1mm}
 \end{block}
 \end{frame}
 
@@ -382,7 +393,7 @@ By convention, functions followed by ! alter their contents and functions lackin
 \end{frame}
 
 \begin{frame}[fragile]{Types and multiple dispatch}
-	The \verb|::| operator annotates the type of variables. For example, \verb|x::Int8| means that the value of \verb|x| is an instance of \verb|Int8|. There are abstract types (Integer, Number) and concrete types (Int8, Float64) and their relationships form a type graph.
+	The \verb|::| operator annotates the type of variables. For example, \verb|x::Int8| means that the value of \verb|x| is an instance of \verb|Int8|. There are abstract types (\verb|Integer|, \verb|Number|) and concrete types (\verb|Int8|, \verb|Float64|) and their relationships form a type graph.
 	\vspace*{5mm}
 	
 	In Julia a function is a set of multiple methods. Each method is defined for particular argument types and comes with its own implementation. When you call a function the most specific method is executed (dispatched).
@@ -427,6 +438,7 @@ Keep in mind:~Julia is not an Object-Oriented programming language so functions 
 	\end{block}
 	\vfill
 	\begin{block}{Solution}
+			\vspace*{1mm}
 		\begin{jllisting}
   struct Point
     x::Real
@@ -437,12 +449,36 @@ Keep in mind:~Julia is not an Object-Oriented programming language so functions 
     return arg1.x + arg2.x, arg1.y - arg2.y
   end
 		\end{jllisting}
+		\vspace*{1mm}
 	\end{block}
 \end{frame}
 
+\begin{frame}[fragile]{Functions revisited}
+
+	\begin{Boxx}
+		\begin{jllisting}
+  # Specifying a return type will convert the returned value	
+  g(x, y)::Int8 = x * y
+  
+  # Varargs functions (variable number of arguments functions)
+  h(a,b,x...) = (a,b,x)
+  
+  # Optional arguments
+  f(x, y=1, z::Int64=2) = x + y + z
+  
+  # Keyword arguments (seperated by a semicolon)
+  g(x, y; a=2, b::String="hallo") = x+y+a, b
+		\end{jllisting}
+	\end{Boxx}
+Everything above can be combined arbitrarily, e.g. keyword arguments can be collected using \verb|...|
+
+% x is bound to a tuple of the trailing values passed to h.
+	
+\end{frame}
 
 
 \begin{frame}[fragile]{Running julia scripts}
+	There are mainly two different ways to run your julia scripts:
 	\begin{Boxx}
  \begin{jllisting}
   # in your command prompt or terminal
@@ -452,7 +488,7 @@ Keep in mind:~Julia is not an Object-Oriented programming language so functions 
   include("script.jl")
 \end{jllisting}
 \end{Boxx}
-Working from the REPL is preferred since all methods inside the script are compiled the first time and stay available as long as the session is not closed.\\
+Working from the \verb|REPL| is preferred since all methods inside the script are compiled the first time and stay available as long as the session is not closed.\\
 
 \vspace{4mm}
 Try to break your programs down into lots of small specialized functions to really take advantage of the julia compiler and its speed-up.
@@ -460,7 +496,7 @@ Try to break your programs down into lots of small specialized functions to real
 
 
 \begin{frame}[fragile]{Modules}
-If your julia files are becomming to large, organize them into modules (namespaces). Module names are capitalised and you can nest modules as well.
+If your julia files are becoming too large, organize them into modules (namespaces). Module names are capitalised and you can also nest them.
 \begin{Boxx}
   \begin{jllisting}
   module MyModule
@@ -470,17 +506,20 @@ If your julia files are becomming to large, organize them into modules (namespac
     f() = println(g())
   end
   
+  # inside the REPL
+  include("MyModule.jl")
+  
   # Loading the module in a different file
   using Main.MyModule
   \end{jllisting}
 \end{Boxx}
-Additional advantage: Modules can be precompiled and saved to hard-drive which means precompiled code won't disappear when closing the REPL.
+Additional advantage: Modules can be precompiled and saved to hard-drive which means precompiled code won't disappear when closing the \verb|REPL|.
 \end{frame}
 
 
 \section{The ecosystem}
 \begin{frame}[fragile]{Installing packages}
-  Julia has an inbuilt package manager called \verb|Pkg|. You can access it from the REPL by entering \verb|]|.
+  Julia has an inbuilt package manager called \verb|Pkg|. You can access it from the \verb|REPL| by entering \verb|]|.
   For example, to install and load the Julia package \verb|Distributions.jl| in the \verb|REPL| just run:
 \begin{Boxx}
   \begin{jllisting}
@@ -521,6 +560,43 @@ OIST also has a Slack workspace: julia@oist
     \item[Wednesday] How to use Julia for computation and plotting
     \item[Friday] Problem sets and ???
   \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{Exercise: Calculate $\pi$}
+	\begin{block}{Pseudocode}
+		\begin{enumerate}
+			\item For each of $N$ iterations
+			\begin{enumerate}
+				\item Select a random point inside a square of area $4r^2$ as Cartesian, $(x, y)$, coordinates. (You can choose $r=1$ for simplicity.)
+				\item Determine if the point also falls inside the circle embedded within this square of area $\pi r^2$.
+				\item Keep track of whether or not this point fell inside the circle. At the end of $N$ iterations, you want to know $M$ -- the number of the $N$ random points that fell inside the circle!
+			\end{enumerate}
+		\item Calculate $\pi$ as $4\frac{M}{N}$
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Exercise: Calculate $\pi$}
+	\begin{block}{Solution}
+		\vspace*{1mm}
+		\begin{jllisting}
+  function calculate_pi(N::Integer = 1000)
+    M = 0
+    for i in 1:N
+      x = 1-2*rand()
+      y = 1-2*rand()
+      # Check if the distance to (x, y) from (0, 0) is less than the radius of 1
+      if x^2 + y^2 < 1
+        M += 1
+      end
+    end
+    return 4 * M / N
+  end
+			
+  map(calculate_pi, [10, 100, 1000, 10000, 100000])
+		\end{jllisting}
+		\vspace*{1mm}
+	\end{block}
 \end{frame}
 
 \end{document}
