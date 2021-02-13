@@ -1,0 +1,626 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Modified by Jeremie Gillet in November 2015 to make an OIST Skill Pill template
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+\usetheme{Madrid}
+
+\definecolor{OISTcolor}{rgb}{0.65,0.16,0.16}
+\usecolortheme[named=OISTcolor]{structure}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{textpos} % Use for positioning the Skill Pill logo
+\usepackage{fancyvrb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{subfig}
+%\usepackage{enumitem}
+%\usepackage{calc}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\newcommand{\red}[1]{{\color{red} #1}}
+
+
+
+
+%~ \lstset{frame=tb,
+  %~ language=python,
+  %~ aboveskip=3mm,
+  %~ belowskip=3mm,
+  %~ showstringspaces=false,
+  %~ columns=flexible,
+  %~ basicstyle={\small\ttfamily},
+  %~ numbers=none,
+  %~ numberstyle=\tiny\color{gray},
+  %~ keywordstyle=\color{blue},
+  %~ commentstyle=\color{dkgreen},
+  %~ stringstyle=\color{mauve},
+  %~ breaklines=true,
+  %~ breakatwhitespace=true,
+  %~ tabsize=3
+%~ }
+
+\usepackage[charsperline=65, theme=default-plain]{jlcode}
+\usepackage{tcolorbox}
+
+
+\lstset{%frame=tb,
+  language=julia,
+  aboveskip=-1.0mm,
+  belowskip=-1.0mm,
+  showstringspaces=false,
+  columns=flexible,
+  %basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+\newcommand*{\lstitem}[1]{
+  \setbox0\hbox{\lstinline{#1}}  
+  \item[\usebox0]  
+  % \item[\hbox{\lstinline{#1}}]
+  \hfill \\
+}
+
+
+\newenvironment{Boxx}{\begin{tcolorbox}[standard jigsaw, opacityframe=0.8, opacityback=0.0,left=2pt,right=2pt,top=0pt,bottom=0pt]}{\end{tcolorbox}}
+
+\lstset{escapeinside={<@}{@>}}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Skill Pill]{Skill Pill: Julia} % The short title appears at the bottom of every slide, the full title is only on the title page
+\subtitle{Lecture 2: Data Processing and Plotting}
+
+\author[Juan Polo]{Juan Polo {\tiny $\Bigg\{$ \parbox{2cm}{\centering material taken/based on Ankur Dhar \& James Schloss}$\Bigg\}$}} % Your name
+\institute[OIST] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+	\textit{juan.polo@oist.jp} \\ % Your institution for the title page
+	\textit{\tiny ankurd@oist.jp} \\ % Your institution for the title page
+	\textit{\tiny james.schloss@oist.jp} % Your email address
+}
+\date{\vspace*{-0.5cm}\\ February 24th, 2021} % Date, can be changed to a custom date
+
+\begin{document}
+
+\setbeamertemplate{background}{\includegraphics[width=\paperwidth]{SPbackground.png}} % Adding the background logo
+
+\begin{frame}
+\vspace*{1.4cm}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+\setbeamertemplate{background}{} % No background logo after title frame
+
+\addtobeamertemplate{frametitle}{}{% Adding the Skill Pill logo on the title screen after title frame
+\begin{textblock*}{100mm}(.92\textwidth,-0.9cm)
+\includegraphics[height=0.85cm]{julia.pdf}
+\end{textblock*}}
+
+\begin{frame}
+  \tableofcontents
+\end{frame}
+\section{Arrays}
+\begin{frame}[fragile]{Creating Arrays}
+	Arrays in Julia are defined very similarly to arrays in Matlab, using square brackets to denote them. By default arrays are row vectors, but can be transposed to column vectors.
+\pause
+
+	In addition, sequences of numbers can be generated using the \verb|:| operator \textbf{(start:step:end)}. To see all these values expanded out you will need to print them manually or use the \verb|collect| function. 
+
+\pause
+  \begin{Boxx}
+  \begin{jllisting}
+  	x = [1 2 3 4] 			# 1x4 Array{Int64,2}
+	y = collect(1:4) 		# 4-element Array{Int64,1}
+	z = [1, 2, 3, 4] 		# 4-element Array{Int64,1}
+	m = [1 2; 3 4]			# 2x2 Array{Int64,2}
+	w=x'						# 4x1 {Int64,Array{Int64,2}}
+	array = Int64[]		# 0-element Array{Int64,1}
+	\end{jllisting}
+  \end{Boxx}
+	
+	%~ \begin{lstlisting}
+	%~ julia> <@\textcolor{red}{x = [1 2 3 4]}@>  			# 1x4 Array{Int64,2}
+	%~ julia> <@\textcolor{red}{y = collect(1:4)}@>  		# 4-element Array{Int64,1}
+	%~ julia> <@\textcolor{red}{z = [1, 2, 3, 4] }@> 		  # 4-element Array{Int64,1}
+	%~ julia> <@\textcolor{red}{m = [1 2; 3 4] }@> 		    # 2x2 Array{Int64,2}
+	%~ julia> <@\textcolor{red}{w=x'}@>					   	  # 4x1 {Int64,Array{Int64,2}}
+	%~ julia> <@\textcolor{red}{array = Int64[]}@> 			 # 0-element Array{Int64,1}
+	%~ \end{lstlisting}
+
+	\pause
+	\vspace*{-0.15cm}
+	\fbox{\textbf{\color{red} Please try to create a vector from 0 to 0.9 in steps of 0.1}}
+	
+\end{frame}
+
+\begin{frame}[fragile]{Array Generation Functions}
+	\begin{description}[leftmargin=*]
+		\item[zeros(S)] Makes an array of size S filled with zeros  
+		\item[ones(S)]  Makes an array of size S filled with ones 
+		\item[repeat(A,c,r)] Repeats array A column-wise c times and row-wise r times
+		\item[rand(S)] Generates array of size S with random numbers between 0 and 1
+		\item[Type\textbf{[]}] Creates empty array of type Type
+	\end{description}
+	
+\end{frame}
+
+\begin{frame}[fragile]{Array Operations}
+	Arrays can be indexed by using square brackets after the array. For multidimensional arrays, the first dimension is the row, followed by column and so on. Output of indexing arrays is by default a column. This is crucial when it comes to multiplying arrays by each other.
+	
+\pause	
+  \begin{Boxx}
+  \begin{jllisting}
+		data = rand(50,50)
+		data[1,:]
+		data[:,1]
+		inner = x*y
+		outer = y*x
+		square = x .* x
+	\end{jllisting}
+  \end{Boxx}
+	%~ \begin{lstlisting}
+	%~ julia> <@\textcolor{red}{data = rand(50,50)}@>
+	%~ julia> <@\textcolor{red}{data[1,:]}@>
+	%~ julia> <@\textcolor{red}{data[:,1]}@>
+	%~ julia> <@\textcolor{red}{inner = x*y}@>
+	%~ julia> <@\textcolor{red}{outer = y*x}@>
+	%~ julia> <@\textcolor{red}{square = x .* x}@>
+	%~ \end{lstlisting}
+
+	
+	To execute scalar operations on an array, \textbf{you can use a} \verb|.| \textbf{to the operator}. This is also applicable to functions as well.
+		
+	\pause
+	\vspace*{0.5cm}
+	\fbox{\textbf{\color{red} Multiply all elements of "x" by a constant "2" (careful with spaces)}}
+	\pause
+	\centering {\color{red}\Huge \verb|2 .* x|}
+	
+\end{frame}
+
+\begin{frame}[fragile]{Broadcasting}
+	It is sometimes useful to perform element-by-element binary operations on arrays of different sizes. Dotted operators such as \verb|.+| and \verb|.*| are equivalent to broadcast calls
+	
+  \begin{Boxx}
+  \begin{jllisting}
+	data = collect(0:.1:1)
+	round.(data)
+	f(x) = x+2
+	f.(data)
+	\end{jllisting}
+  \end{Boxx}
+	
+	
+	%~ \begin{lstlisting}
+	%~ julia> <@\textcolor{red}{data = collect(0:.1:1)}@>
+	%~ julia> <@\textcolor{red}{round.(data)}@>
+	%~ julia> <@\textcolor{red}{f(x) = x+2}@>
+	%~ julia> <@\textcolor{red}{f.(data)}@>
+	%~ \end{lstlisting}
+	
+		
+	\pause
+	%~ \vspace*{-0.15cm}
+	\fbox{\parbox{\linewidth}{\textbf{\color{red} Create a vector of dim = 2 (e.g. elements (1, 2)) and add it to m of dim = 2x2}}}
+	\pause
+  \begin{Boxx}
+  \begin{jllisting}
+	v = [1, 2]
+	m = [1 2; 3 4]
+	v .+ m
+	\end{jllisting}
+  \end{Boxx}
+	%~ \begin{lstlisting}
+	%~ julia> <@\textcolor{red}{v = [1, 2]}@>
+	%~ julia> <@\textcolor{red}{m = [1 2; 3 4]}@>
+	%~ julia> <@\textcolor{red}{v .+ m}@>
+	%~ \end{lstlisting}
+	\pause
+	\fbox{\parbox{0.4\linewidth}{\textbf{\color{red} Extra cool things}}}
+	
+	{\color{red}\Large \verb|data[data .< 0.5]|}
+	
+\end{frame}
+
+\section{Data Handling}
+
+\begin{frame}[plain]
+
+\centering \Huge \textbf{Data Handling}
+
+\end{frame}
+
+\begin{frame}[fragile]{File Structure}
+	To begin working with files, you must know where your working directory is. When launching Julia from an application menu (Windows/MacOS), the default directory is predefined. For Linux it will be the home directory. 
+  \begin{Boxx}
+  \begin{jllisting}
+	pwd()
+	# cd("C:\\Users\\M\\Documents\\JuliaStuff")
+	readdir()
+	\end{jllisting}
+  \end{Boxx}
+	You can use \verb|pwd()| to print your working directory, and \verb|cd()| to change it to whichever new directory you would like.	Once you are in the directory you want, you can list the files within using \verb|readdir()|.
+\end{frame}
+
+%~ \begin{frame}[fragile]{Writing Scripts}
+	%~ As we start to get into more complex commands and chain them together, we can use scripts to automatically execute a series of commands at once. To include these commands into the REPL (read-eval-print loop), we simply use the \verb|include()| command 
+	%~ \begin{lstlisting}
+	%~ julia> include("Lesson 2.jl")
+	%~ julia> randflips[1];
+	%~ \end{lstlisting}
+	%~ To help debug in these scripts, you can suppress the direct output from any commands with a \verb|;|, and forcibly print values using \verb|prfint()| or \verb|println|.
+%~ \end{frame}
+
+\begin{frame}[fragile]{Delimited text}
+	The simplest data files are often delimited text files or CSV files, which can be manipulated like any other variable in Julia. To load any general delimited file, load the DelimitedFiles package. Reading in these files will automatically generate 1D or 2D arrays depending on the data being read in.
+	
+	\begin{lstlisting}
+	julia> using DelimitedFiles
+	julia> data = rand(50,50)
+	julia> writedlm("Random.txt",data)
+	julia> randData = readdlm("Random.txt")
+	\end{lstlisting}
+	
+\vspace*{0.5cm}
+	Similarly, any 1D or 2D can be written to a file, with the actual delimiter being based on the file extension used (txt for space and csv for comma).
+\end{frame}
+
+\begin{frame}[fragile]{CSV files}
+	Typical CSV files are a bit more complex than standard delimited files, with headers or labels. For this use case the CSV package is recommended. When reading in a file, the first row will be taken as the header row, but this can be explicitly defined.
+
+  \begin{Boxx}
+  \begin{jllisting}
+  	using CSV, DataFrames
+	data = DataFrame(CSV.File("simplemaps-worldcities-basic.csv"))
+	names(data)
+	populations = data[:,:pop]
+	populations = data.pop
+	data[5677,:]
+	\end{jllisting}
+  \end{Boxx}
+	
+	%~ \begin{lstlisting}
+	%~ julia> <@\textcolor{red}{using CSV, DataFrames}@>
+	%~ julia> <@\textcolor{red}{data = DataFrame(CSV.File("simplemaps-worldcities-basic.csv"))}@>
+	%~ julia> <@\textcolor{red}{names(data)}@>
+	%~ julia> <@\textcolor{red}{populations = data[:,:pop]}@>
+	%~ julia> <@\textcolor{red}{populations = data.pop}@>
+	%~ julia> <@\textcolor{red}{data[5677,:]}@>
+	%~ \end{lstlisting}
+	
+	%~ julia> using CSV
+	%~ julia> data = CSV.read("simplemaps-worldcities-basic.csv")
+	%~ julia> names(data)
+	%~ julia> populations = data[:pop]
+	
+	Small trick, you can write ``\verb|data.|'' and press "TAB" twice to see the available columns
+	
+	
+	\tiny
+	{\color{gray}\verb|data[data.city .== "Barcelona",:]|
+	
+	\verb|findall(x->x=="Barcelona",data.city)|}
+	
+\end{frame}
+
+\begin{frame}[fragile]{Exercises}
+	\begin{block}{Exercise 1}
+		Creates a file \verb|squares.txt| consisting of the first 5 square numbers
+	\end{block}
+	\begin{block}{Exercise 2}
+		Write a script which creates a new file called \verb|large_cities.txt|.
+		The file should contain one line for each of the cities which have a
+		population larger than 10,000,000., formatted as follows:\\
+		Buenos Aires, Argentina: population 11862073\\
+		Sao Paulo, Brazil: population 14433147.5\\
+		...
+	\end{block}
+	
+	
+	{\color{gray} \tiny
+	Fast way to look at data using Dataframes \verb|data[data.pop .> 10^7,:]|
+	}
+	
+\end{frame}
+
+\section{Plotting}
+
+\begin{frame}[plain]
+
+\centering \Huge \textbf{Plots}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Plots in a Nutshell}
+	\begin{minipage}{0.6\linewidth}
+		%~ \column{.6\linewidth}
+			To start with, let's add and load the general Plots package
+		\begin{Boxx}
+		\begin{jllisting}
+					# inside pkg>
+					add Plots
+					# inside REPL
+					using Plots
+					# plot(Plots.fakedata(50))
+			\end{jllisting}
+		\end{Boxx}
+		This will let us call the general Plot commands, in this case \verb|plot| plots 1D data as a line plot.
+		
+		More information can be found at \url{https://docs.juliaplots.org/latest/}
+	\end{minipage}%
+	\begin{minipage}{0.4\linewidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{randPlot}
+		\end{figure}
+	\end{minipage}
+\end{frame}
+
+
+\begin{frame}[fragile]{Plotting Commands}
+	\begin{description}[leftmargin=*,align=right]
+		\item[scatter(X,Y)] Scatter plot data with XY coordinates
+		\item[bar(x,y)] Bar plot following similar rules to plot
+		\item[histogram(x,bins=n)] Plots histogram of 1D data in n bins.
+		\item[plot($\theta$,r,proj=:polar)] Polar plot of data following r and $\theta$
+		\item[heatmap(x,y,z)] Plots heatmap following XY axes with intensity array z
+		\item[fakedata(L,S)] Generates random S numbers of series data of length L
+		\item[savefig(filename)] Saves a generated plot as an image file
+	\end{description}
+	
+\end{frame}
+
+\begin{frame}[fragile]{Plotting 3D Data}
+%%TODO include heatmap, surf, and contour
+	\begin{columns}
+		\column{.6\textwidth}
+		There are a couple of additional options for plotting 3D data:
+		\begin{description}[align=right]
+			\item[surface(x,y,z)] Draws surface in 3D space
+			\item[contour(x,y,z)] Draws contours on 2D plane
+		\end{description}
+		The plotting commands \verb|plot|,\verb|scatter|,\verb|bar|, and \verb|heatmap| also can accept 3D data.
+		\column{.4\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{surf}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Plotting 3D examples}
+%%TODO include heatmap, surf, and contour
+	\begin{columns}
+		\column{.7\textwidth}
+		
+		\begin{Boxx}
+		\begin{jllisting}
+				using Plots
+				x = y = collect(-1:0.01:1)
+				#surface(x,y,(x,y)->x^2+y^2)
+				#heatmap(x,y,(x,y)->x^2+y^2)
+				f(x,y) = x^2 + y^2
+				surface(x,y,f.(x,y'))
+				contour(x,y,f.(x,y'))
+			\end{jllisting}
+		\end{Boxx}		
+		
+		
+		\column{.3\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{surf}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Plotting Vector Data}
+	\begin{columns}
+	\column{.5\textwidth}
+	For vector data the current option is quiver:
+	\begin{lstlisting}
+	help?> quiver
+	search: quiver quiver!
+	
+	quiver(x,y,quiver=(u,v))
+	quiver!(x,y,quiver=(u,v))
+	
+	Make a quiver (vector field) plot. The ith vector extends from (x[i],y[i]) to (x[i] + u[i], y[i] + v[i]).
+	\end{lstlisting}
+	\column{.5\textwidth}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{quiver}
+	\end{figure}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Plotting Backends}
+	\begin{columns}
+	\column{.5\linewidth}
+	These commands are agnostic to the plotting backend, meaning they will work with a number of plotting engines in similar fashion. Each backend has pros and cons, but most commonly used are {\color{red} GR and PyPlot}.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.75\textwidth]{randPlotPy}
+		\caption{\centering  PyPlot\newline \tiny using PyPlot; PyPlot.plot(rand(10))}
+	\end{figure}
+
+	\column{.5\linewidth}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.75\textwidth]{randPlotPGF}
+		\caption{PGFPlots}
+	\end{figure}
+	\vspace{-11mm}
+	\SaveVerb{term}|UnicodePlots.histogram(randn(1000),nbins=15,closed=:left)|
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.475\textwidth]{randPlotUni0}
+		\includegraphics[width=.475\textwidth]{randPlotUni2}
+		\caption{
+		\centering UnicodePlots\newline 
+		\tiny using UnicodePlots; UnicodePlots.lineplot(rand(10))\newline
+		%~ \verb|using UnicodePlots; UnicodePlots.histogram(randn(1000) .* 0.1, nbins = 15, closed = :left)|
+		\fontsize{5}{5}\selectfont
+		\protect\UseVerb{term}
+		}
+	\end{figure}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Formatting Commands}
+Each of these commands can be expressed in-line with the plotting command or beforehand within a call to the plotting backend.
+\begin{description}[leftmargin=*,align=right]
+	\item[font(fontname,size)] Defines a Font object with a given size
+	\item[size=(X,Y)] Sets size of plot to X by Y pixels
+	\item[xlabel=string] Sets X-Y labels to string, also ylabel
+	\item[title=string] Sets title to string, also colorbar\_title for heatmap.
+	\item[xtickfont=font] Sets the font of x tick marks, also ytickfont,titlefont,guidefont
+	\item[left\_margin=length] Sets margin for left side of plot, also top\_margin, bottom\_margin, and right\_margin
+	\item[xscale=:log10] Sets x scale to log10, also yscale
+\end{description}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Exercises}
+	\begin{block}{Exercise 3}
+		Read data.txt given in the Public Folder and plot the results.
+		What do you see?
+	\end{block}
+	\begin{block}{Exercise 4}
+		Plot a histogram of the longitudes of the world's cities. What is the mean and median longitude?
+		{\color{red}\footnotesize 
+		
+		\verb|using Plots, DataFrames, CSV|
+		\verb|data = DataFrame(CSV.File("simplemaps-worldcities-basic.csv"))|
+		}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Exercise 4 solution}
+
+
+	
+\begin{Boxx}
+\begin{jllisting}	
+
+	using Plots, Images, ImageMagick, DataFrames, CSV
+	
+	data = DataFrame(CSV.File("simplemaps-worldcities-basic.csv"))
+	
+	histogram(data.lng,bins=200)
+	histogram(data.lat)
+	
+	\end{jllisting}
+\end{Boxx}		
+		
+\end{frame}
+
+\begin{frame}[fragile]{My image}
+
+
+	
+\begin{Boxx}
+\begin{jllisting}	
+	using Plots, Images, ImageMagick, DataFrames, CSV,Shapefile
+
+	data = DataFrame(CSV.File("simplemaps-worldcities-basic.csv"))
+
+	shp = Shapefile.shapes(Shapefile.Table("ne_110m_coastline.shp"));
+
+	p3 = histogram(data.lng,bins=200,xticks = (-200:25:200));
+	p2 = plot(shp,xlim=(-200,200),ylim=(-100,100));
+	p2_size = p2.attr.explicit[:size];
+	
+	p1 = histogram(data.lat,bins=200,ylim = (-100,100),
+		orientation=:horizontal,aspect_ratio=p2_size[1]/p2_size[2]);
+	
+	plot(p1,p2,p3,p3,
+		layout= layout=@layout [[a{0.2w} b{0.8h}]; [c d]])
+
+	\end{jllisting}
+
+
+	
+	%~ data_full = DataFrame(CSV.File("simplemaps-worldcities-basic.csv"))
+	
+	%~ img = load("world3.jpg");
+	%~ x = range(-200,200,length=size(img,1));
+	%~ y = range(0,200,length=size(img,2));
+	
+	%~ plot(x,y,img)
+	
+	%~ histogram!(data_full.lng,bins=200,xticks = (-200:25:200),yflip=false,weights= 0.5 .*ones(size(data_full,1)))
+	%~ histogram!(data_full.lat.+100,bins=100,xlim = (-200,200),weights= +0.15 .*ones(size(data_full,1)),orientation=:horizontal)
+
+
+\end{Boxx}		
+		
+
+\end{frame}
+
+
+\begin{frame}{What is next?}
+  \begin{description}
+    \item[Last Session] Problem Sets with James
+    \item[Also next week] Advanced Topics with Valentin!
+  \end{description}
+\end{frame}
+%\begin{frame}[fragile]{Using Fortran and C in Julia}
+%	
+%	Julia allows you to use other languages (such as Fortran or C) by using the \texttt{ccall} function:
+%	
+%	\begin{lstlisting}
+%	julia> t = ccall((:clock, "libc"), Int32, ())
+%	2292761
+%	\end{lstlisting}
+%	
+%	Here, we are calling the \texttt{clock} function from the \texttt{libc} library in C.
+%	
+%\end{frame}
+\end{document}
