@@ -38,19 +38,21 @@
 \usepackage{fancyvrb}
 \usepackage{tikz}
 \usepackage{hyperref}
-\usepackage{listings}
+%\usepackage{listings}
+\usepackage[charsperline=65, theme=default-plain]{jlcode}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
-\lstset{frame=tb,
-  language=python,
-  aboveskip=3mm,
-  belowskip=3mm,
+
+\lstset{%frame=tb,
+  language=julia,
+  aboveskip=-1.0mm,
+  belowskip=-1.0mm,
   showstringspaces=false,
   columns=flexible,
-  basicstyle={\small\ttfamily},
+  %basicstyle={\small\ttfamily},
   numbers=none,
   numberstyle=\tiny\color{gray},
   keywordstyle=\color{blue},
@@ -60,6 +62,11 @@
   breakatwhitespace=true,
   tabsize=3
 }
+
+\usepackage{tcolorbox}
+
+\newenvironment{Boxx}{\begin{tcolorbox}[standard jigsaw, opacityframe=0.8, opacityback=0.0]}{\end{tcolorbox}}
+
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -208,7 +215,8 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
 \section{Language syntax and semantics}
 \begin{frame}[fragile]{Variables and datatypes}
   Julia is a dynamic language and so you can simply create variables in any scope.
-  \begin{lstlisting}
+  \begin{Boxx}
+  \begin{jllisting}
   x = 1   # x will be of type Int64
   y = 1.0 # y will be of type Float64
   z = 1.0 - 2.0im # z will be an Complex{Float64}
@@ -220,7 +228,8 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
   """
   'C' # Character literal
   1.0f0 # Float32 literal
-  \end{lstlisting}
+  \end{jllisting}
+\end{Boxx}
   Use \verb|typeof| to check the type of any variable. Variable names can be unicode and so greek symbols can be used.
   In the \verb|REPL| and most editors you can insert them by entering their \LaTeX name and press\verb|[Tab]|.
 \end{frame}
@@ -235,19 +244,20 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
 	\end{block}
 	\vfill
 	\begin{block}{Solution}
-		\begin{lstlisting}[mathescape]
+		\begin{jllisting}[mathescape]
   # \lambda + <tab> = \pi + <tab>
   $\lambda$ = $\pi$
   typeof($\lambda$)
   ?convert
   convert(Float32, $\lambda$)
-		\end{lstlisting}
+		\end{jllisting}
 	\end{block}
 \end{frame}
 
 
 \begin{frame}[fragile]{Data structures}
-	\begin{lstlisting}
+	\begin{Boxx}
+	\begin{jllisting}
   # Tuple: (item1, item2, ...)
   okinawa = ("Onna", "Nago", "Naha")
   okinawa[1] 
@@ -257,13 +267,14 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
   okinawa.north 
 		
   # Dictionaries: Dict(key1 => value1, key2 => value2, ...)
-  number = Dict("Jeremie" => "12345", "Juan" => nothing)
-  number["Juan"] = "4444"
+  password = Dict("Jeremie" => "12345", "Juan" => nothing)
+  password["Juan"] = "4444"
 		
   # Arrays: [item1, item2, ...]
   fibonacci = [1, 1, "two", 3, "five", 8, 13]
   fibonacci[3] = 2
-	\end{lstlisting}
+	\end{jllisting}
+\end{Boxx}
 
 Julia is 1-based indexing, not 0-based like Python!!!\\
 You can add or remove elements using \verb|push!| and \verb|pop!|.
@@ -273,16 +284,20 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 \begin{frame}[fragile]{Conditionals}
   Julia has all the typical conditionals \verb|if|, \verb|else|, \verb|elseif| which have to end in an \verb|end|.
   Blocks in Julia are not whitespace sensitive and conditionals do not need to be wrapped in round brackets.
-  \begin{lstlisting}
+  \begin{Boxx}
+  \begin{jllisting}
   if rand() < 0.5
     println("Gaston is awesome!")
+  elseif rand() >= 0.5
+    println("Jeremie is awesome!")
   else
     println("Juan is awesome!")
   end
   
   # Ternary operator: a ? b : c
   rand() < 0.5 ? println("Gaston  is awesome!") : println("Juan  is awesome!")
-\end{lstlisting}
+\end{jllisting}
+\end{Boxx}
 
 \verb|&&| is the \verb|and| operator, $||$ is the \verb|or| operator.
 \end{frame}
@@ -294,7 +309,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 	\end{block}
 	\vfill
 	\begin{block}{Solution}
-		\begin{lstlisting}[mathescape]
+		\begin{jllisting}[mathescape]
   if (x > 0) error("x cannot be greater than 0") end
 	
   # Ternary operator		
@@ -302,14 +317,15 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 			
   # Short-circuit evaluation
   (x > 0) && error("x cannot be greater than 0")
-		\end{lstlisting}
+		\end{jllisting}
 	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]{Loops}
   Julia has \verb|for| and \verb|while| loops. A \verb|while| loop takes a condition and a \verb|for| loop takes an iterator.
   One can use \verb|break| to break out of a loop and \verb|continue| to skip to the next iteration. %It is noteworthy that a \verb|for| loop can take an arbitrary iterator and even desugar tuples.
-  \begin{lstlisting}
+  \begin{Boxx}
+  \begin{jllisting}
   for (i, x) in enumerate(['A', 'B', 'C'])
     if x == 'B'
       continue
@@ -320,7 +336,8 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   while true
     rand() < 0.1 ? break : println("You are trapped!")
   end
-  \end{lstlisting}
+  \end{jllisting}
+\end{Boxx}
 \end{frame}
 
 
@@ -330,7 +347,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 \end{block}
 \vfill
 \begin{block}{Solution}
-	\begin{lstlisting}
+	\begin{jllisting}
   squares = Dict()
   for i in 1:100
     squares[i] = i^2
@@ -339,7 +356,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   
   # Array comprehension
   squares_array = [i^2 for i in 1:100]
-	\end{lstlisting}
+	\end{jllisting}
 \end{block}
 \end{frame}
 
@@ -347,7 +364,8 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 
 \begin{frame}[fragile]{Functions and lambdas}
   Julia uses functions to organize operations. Every function is compiled for the combination of input parameters.
-  \begin{lstlisting}
+  \begin{Boxx}
+  \begin{jllisting}
   function f(x, y)
     return x + y
   end
@@ -358,7 +376,8 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   # map takes a function as input and applies that function to every element of the data structure you pass it.
   map(lowercase, ['A', 'B', 'C'])
   map(x->x+2, [1, 2, 3])
-  \end{lstlisting}
+  \end{jllisting}
+\end{Boxx}
 By convention, functions followed by ! alter their contents and functions lacking ! do not, e.g. \verb|sort()| vs. \verb|sort!()|.
 \end{frame}
 
@@ -367,20 +386,23 @@ By convention, functions followed by ! alter their contents and functions lackin
 	\vspace*{5mm}
 	
 	In Julia a function is a set of multiple methods. Each method is defined for particular argument types and comes with its own implementation. When you call a function the most specific method is executed (dispatched).
-	\begin{lstlisting}
+	\begin{Boxx}
+	\begin{jllisting}
   h(x::Number) = println("x is most definitly a number.")
 
   h(x::Integer) = println("x is an integer")
   
   h(x::Int8) = println("Specific method for Int8")
-	\end{lstlisting}
+	\end{jllisting}
+\end{Boxx}
 Multiple dispatch makes your code generic and fast!
 \end{frame}
 
 
 \begin{frame}[fragile]{Types and structs}
  You can create your own types using \verb|struct|.
-  \begin{lstlisting}
+ \begin{Boxx}
+  \begin{jllisting}
   abstract type Coordinate end
   
   mutable struct Cartesian <: Coordinate
@@ -394,7 +416,8 @@ Multiple dispatch makes your code generic and fast!
   
   point = Polar(1,pi)
   point.radius
-  \end{lstlisting}
+  \end{jllisting}
+\end{Boxx}
 Keep in mind:~Julia is not an Object-Oriented programming language so functions do not belong to an object!
 \end{frame}
 
@@ -404,7 +427,7 @@ Keep in mind:~Julia is not an Object-Oriented programming language so functions 
 	\end{block}
 	\vfill
 	\begin{block}{Solution}
-		\begin{lstlisting}
+		\begin{jllisting}
   struct Point
     x::Real
     y::Real
@@ -413,20 +436,22 @@ Keep in mind:~Julia is not an Object-Oriented programming language so functions 
   function add(arg1::Point, arg2::Point)
     return arg1.x + arg2.x, arg1.y - arg2.y
   end
-		\end{lstlisting}
+		\end{jllisting}
 	\end{block}
 \end{frame}
 
 
 
 \begin{frame}[fragile]{Running julia scripts}
- \begin{lstlisting}
+	\begin{Boxx}
+ \begin{jllisting}
   # in your command prompt or terminal
   julia script.jl
   
   # inside the REPL
   include("script.jl")
-\end{lstlisting}
+\end{jllisting}
+\end{Boxx}
 Working from the REPL is preferred since all methods inside the script are compiled the first time and stay available as long as the session is not closed.\\
 
 \vspace{4mm}
@@ -436,8 +461,8 @@ Try to break your programs down into lots of small specialized functions to real
 
 \begin{frame}[fragile]{Modules}
 If your julia files are becomming to large, organize them into modules (namespaces). Module names are capitalised and you can nest modules as well.
-
-  \begin{lstlisting}
+\begin{Boxx}
+  \begin{jllisting}
   module MyModule
     export f
 
@@ -447,7 +472,8 @@ If your julia files are becomming to large, organize them into modules (namespac
   
   # Loading the module in a different file
   using Main.MyModule
-  \end{lstlisting}
+  \end{jllisting}
+\end{Boxx}
 Additional advantage: Modules can be precompiled and saved to hard-drive which means precompiled code won't disappear when closing the REPL.
 \end{frame}
 
@@ -456,21 +482,23 @@ Additional advantage: Modules can be precompiled and saved to hard-drive which m
 \begin{frame}[fragile]{Installing packages}
   Julia has an inbuilt package manager called \verb|Pkg|. You can access it from the REPL by entering \verb|]|.
   For example, to install and load the Julia package \verb|Distributions.jl| in the \verb|REPL| just run:
-
-  \begin{lstlisting}
+\begin{Boxx}
+  \begin{jllisting}
   # Installing a package
   ] add Distributions
   # Loading it afterwards
   using Distributions
-  \end{lstlisting}
-
+  \end{jllisting}
+\end{Boxx}
   A few other commands:
-  \begin{lstlisting}
+  \begin{Boxx}
+  \begin{jllisting}
   # Updating all installed packages
   ] update
   # What packages are installed?
   ] status
-  \end{lstlisting}
+  \end{jllisting}
+\end{Boxx}
   Look \href{https://julialang.org/packages/}{\color{blue} here} for more information about Julia packages.
 \end{frame}
 \begin{frame}{Resources}
