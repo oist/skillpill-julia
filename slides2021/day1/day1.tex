@@ -67,6 +67,10 @@
 
 \newenvironment{Boxx}{\begin{tcolorbox}[standard jigsaw, opacityframe=0.8, opacityback=0.0]}{\end{tcolorbox}}
 
+\setbeamertemplate{footline}[text line]{%
+	\parbox{\linewidth}{\vspace*{-8pt}\hfill\insertpagenumber}}
+\setbeamertemplate{navigation symbols}{}
+
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -81,7 +85,7 @@
 \textit{friederike.metz@oist.jp} \\ % Your institution for the title page
 %\textit{james.schloss@oist.jp} % Your email address
 }
-\date{February 22, 2021} % Date, can be changed to a custom date
+\date{March 1, 2021} % Date, can be changed to a custom date
 
 \begin{document}
 
@@ -104,9 +108,8 @@
 \end{frame}
 \section{Introduction}
 
-
-
 \subsection{Why does Julia exist}
+\iffalse
 \begin{frame}{Why does Julia exist?}
 %  \pause
   \begin{block}{Key Points}
@@ -125,6 +128,28 @@
   \end{block}
 
 \end{frame}
+\fi
+
+\begin{frame}{Why does Julia exist?}
+	%  \pause
+	\begin{block}{Key Points}
+		\begin{enumerate}
+			
+			\item Low-level languages are fast, but high level languages are readable.
+			\item Recent advances in compiler design could bridge these two aspects.
+			\item Julia is being openly developed by researchers, for researchers.
+		\end{enumerate}
+	\end{block}
+	%\pause
+	The old mission statement is available \href{https://julialang.org/blog/2012/02/why-we-created-julia}{\color{blue} here} and some good discussion is available at \href{https://discourse.julialang.org/t/julia-motivation-why-werent-numpy-scipy-numba-good-enough/2236/}{\color{blue} here}. 
+	%\pause
+	\begin{block}{What kind of language is Julia then?}
+		Julia is a general-purpose, high-level, high-performance, dynamic programming language. It supports parametric polymorphism with multiple dispatch at its core. By default Julia compiles to machine code using "just-ahead-of-time" (JAOT) compilation.
+	\end{block}
+	
+\end{frame}
+
+
 \subsection{What is wrong with the status quo}
 \begin{frame}{The other contenders}
   The typical languages used in science are
@@ -162,6 +187,20 @@
 \begin{frame}{A (biased) performance comparison}
   \center
   \includegraphics[width=\linewidth]{benchmarks}
+\end{frame}
+
+\begin{frame}{Summary}
+	\textbf{Julia}
+	\begin{itemize}
+		\item is a dynamic language (Julia is easy to use) while having the advantages of static languages (Julia is fast)
+		\item solves the two language problem
+		\item is open-source
+		\item supports parallel and distributed code execution
+		\item is written in Julia (no dependencies to other languages)
+		\item can call other languages
+		\item is made for researchers (but it can do much more)
+		\item comes with many more smart and useful design choices
+	\end{itemize}
 \end{frame}
 
 \section{Getting started}

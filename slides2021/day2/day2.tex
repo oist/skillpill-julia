@@ -122,7 +122,7 @@
 
 \begin{document}
 
-\setbeamertemplate{background}{\includegraphics[width=\paperwidth]{SPbackground.png}} % Adding the background logo
+\setbeamertemplate{background}{\includegraphics[width=\paperwidth]{images_data/SPbackground.png}} % Adding the background logo
 
 \begin{frame}
 \vspace*{1.4cm}
@@ -133,7 +133,7 @@
 
 \addtobeamertemplate{frametitle}{}{% Adding the Skill Pill logo on the title screen after title frame
 \begin{textblock*}{100mm}(.92\textwidth,-0.9cm)
-\includegraphics[height=0.85cm]{julia.pdf}
+\includegraphics[height=0.85cm]{images_data/julia.pdf}
 \end{textblock*}}
 
 \begin{frame}
@@ -141,10 +141,16 @@
 \end{frame}
 \section{Arrays}
 \begin{frame}[fragile]{Creating Arrays}
-	Arrays in Julia are defined very similarly to arrays in Matlab, using square brackets to denote them. By default arrays are row vectors, but can be transposed to column vectors.
+	Arrays in Julia are defined using square brackets {\color{red}\verb|[ ]|}
+	
+	By default arrays are row vectors, but can be transposed to column vectors
 \pause
 
-	In addition, sequences of numbers can be generated using the \verb|:| operator \textbf{(start:step:end)}. To see all these values expanded out you will need to print them manually or use the \verb|collect| function. 
+	Sequences of numbers can be generated using the {\color{red}\verb|:|}
+	 
+	Ranges can be defined as {\color{red} \verb|start:step:end|}
+	
+	To create a vector from a range use the function {\color{red}\verb|collect()|}
 
 \pause
   \begin{Boxx}
@@ -170,6 +176,11 @@
 	\pause
 	\vspace*{-0.15cm}
 	\fbox{\textbf{\color{red} Please try to create a vector from 0 to 0.9 in steps of 0.1}}
+
+	\pause
+	\vspace*{0.15cm}
+
+	\fbox{\parbox{\linewidth}{\textbf{\color{red} ?range} This allows you to create a range without thinking too much. You can combine stop, step and length {\color{red}collect(range(0,stop=10,length=10))}}}
 	
 \end{frame}
 
@@ -185,7 +196,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{Array Operations}
-	Arrays can be indexed by using square brackets after the array. For multidimensional arrays, the first dimension is the row, followed by column and so on. Output of indexing arrays is by default a column. This is crucial when it comes to multiplying arrays by each other.
+	Arrays are indexed by square brackets after the array {\color{red}\verb|A[1,2]|}. 
 	
 \pause	
   \begin{Boxx}
@@ -219,7 +230,9 @@
 \end{frame}
 
 \begin{frame}[fragile]{Broadcasting}
-	It is sometimes useful to perform element-by-element binary operations on arrays of different sizes. Dotted operators such as \verb|.+| and \verb|.*| are equivalent to broadcast calls
+	Element-by-element binary operations on arrays of different sizes are possible. Dotted operators, {\color{red}\verb|.+|} or {\color{red}\verb|.*|}, are equivalent to broadcast calls
+	
+	\vspace{0.25cm}
 	
   \begin{Boxx}
   \begin{jllisting}
@@ -241,7 +254,7 @@
 		
 	\pause
 	%~ \vspace*{-0.15cm}
-	\fbox{\parbox{\linewidth}{\textbf{\color{red} Create a vector of dim = 2 (e.g. elements (1, 2)) and add it to m of dim = 2x2}}}
+	\fbox{\parbox{\linewidth}{\textbf{\color{red} Create a vector ``v'' of dim = 2 (e.g. elements (1, 2)) and add it to the matrix ``m'' of dim = 2x2}}}
 	\pause
   \begin{Boxx}
   \begin{jllisting}
@@ -356,6 +369,7 @@
 		...
 	\end{block}
 	
+	\pause
 	
 	{\color{gray} \tiny
 	Fast way to look at data using Dataframes \verb|data[data.pop .> 10^7,:]|
@@ -392,7 +406,7 @@
 	\begin{minipage}{0.4\linewidth}
 		\begin{figure}
 			\centering
-			\includegraphics[width=\textwidth]{randPlot}
+			\includegraphics[width=\textwidth]{images_data/randPlot}
 		\end{figure}
 	\end{minipage}
 \end{frame}
@@ -419,41 +433,17 @@
 		\begin{description}[align=right]
 			\item[surface(x,y,z)] Draws surface in 3D space
 			\item[contour(x,y,z)] Draws contours on 2D plane
+			\item[heatmap(x,y,z)] Draws a heatmap on 2D plane
 		\end{description}
 		The plotting commands \verb|plot|,\verb|scatter|,\verb|bar|, and \verb|heatmap| also can accept 3D data.
 		\column{.4\textwidth}
 		\begin{figure}
 			\centering
-			\includegraphics[width=\textwidth]{surf}
+			\includegraphics[width=\textwidth]{images_data/surf}
 		\end{figure}
 	\end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Plotting 3D examples}
-%%TODO include heatmap, surf, and contour
-	\begin{columns}
-		\column{.7\textwidth}
-		
-		\begin{Boxx}
-		\begin{jllisting}
-				using Plots
-				x = y = collect(-1:0.01:1)
-				#surface(x,y,(x,y)->x^2+y^2)
-				#heatmap(x,y,(x,y)->x^2+y^2)
-				f(x,y) = x^2 + y^2
-				surface(x,y,f.(x,y'))
-				contour(x,y,f.(x,y'))
-			\end{jllisting}
-		\end{Boxx}		
-		
-		
-		\column{.3\textwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=\textwidth]{surf}
-		\end{figure}
-	\end{columns}
-\end{frame}
 
 \begin{frame}[fragile]{Plotting Vector Data}
 	\begin{columns}
@@ -471,7 +461,7 @@
 	\column{.5\textwidth}
 	\begin{figure}
 		\centering
-		\includegraphics[width=\textwidth]{quiver}
+		\includegraphics[width=\textwidth]{images_data/quiver}
 	\end{figure}
 \end{columns}
 
@@ -484,22 +474,22 @@
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=.75\textwidth]{randPlotPy}
+		\includegraphics[width=.75\textwidth]{images_data/randPlotPy}
 		\caption{\centering  PyPlot\newline \tiny using PyPlot; PyPlot.plot(rand(10))}
 	\end{figure}
 
 	\column{.5\linewidth}
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=.75\textwidth]{randPlotPGF}
+		\includegraphics[width=.75\textwidth]{images_data/randPlotPGF}
 		\caption{PGFPlots}
 	\end{figure}
 	\vspace{-11mm}
 	\SaveVerb{term}|UnicodePlots.histogram(randn(1000),nbins=15,closed=:left)|
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=.475\textwidth]{randPlotUni0}
-		\includegraphics[width=.475\textwidth]{randPlotUni2}
+		\includegraphics[width=.475\textwidth]{images_data/randPlotUni0}
+		\includegraphics[width=.475\textwidth]{images_data/randPlotUni2}
 		\caption{
 		\centering UnicodePlots\newline 
 		\tiny using UnicodePlots; UnicodePlots.lineplot(rand(10))\newline
@@ -511,7 +501,100 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Formatting Commands}
+
+\begin{frame}[fragile]{Examples of plots}
+
+		\footnotesize
+		You can load one or multiple plot libraries but they might have conflicts. Using ``Plots.plot'' or ``PyPlot.plot'' will force a particular library.
+		
+		The default backend can be changed by ``backend(:gr)'' or ``backend(:pyplot)''
+		
+		\pause
+		
+		\begin{Boxx} 
+		\begin{jllisting}
+	using Plots; import PyPlot; plt = PyPlot;
+	# Import avoids conflicts, however PyPlot.XXX or plt.XXX is need to use that library
+
+	plot(rand(20))		# generates a plot
+	plot(rand(20))		# generates a new plot
+	plot!(rand(20))	# add line to previous plot
+	
+	p1 = plot(rand(20)); # the semicolon will prevent plotting
+	p2 = plot(rand(20));
+	p3 = plot(rand(20));
+	plot(p1,p2,p3)	# Automatically generates a layout
+	
+	# Manually generating a layout
+	plot(p1,p2,p3, layout = @layout grid(3,1))	
+	plot(p1,p2,p3, layout = @layout [a [b; c]])				
+			\end{jllisting}
+		\end{Boxx}	
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Examples of plots with PyPlot}
+
+
+
+		\begin{Boxx} 
+		\begin{jllisting}
+	using Plots; import PyPlot; plt = PyPlot;
+	# we have to use plt.XXX for the main commands
+	
+	fig, axs = plt.subplots(ncols=2,nrows=2);
+	
+
+	axs[1,1].plot(rand(20));
+	axs[1,2].plot(rand(20));
+	axs[2,1].plot(rand(20));
+	axs[2,2].plot(rand(20));
+
+	axs[1,1].set_title("(a)")	
+	axs[1,1].set_xlabel("x_label")
+	axs[1,1].set_ylabel("y_label")
+	
+	
+	plt.clf(); # this will clear the figure
+		
+			\end{jllisting}
+		\end{Boxx}	
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Plotting 3D examples}
+%%TODO include heatmap, surf, and contour
+	\begin{columns}
+		\column{.7\textwidth}
+		
+		\begin{Boxx}
+		\begin{jllisting}
+				using Plots
+				x = y = collect(-1:0.01:1)
+				#surface(x,y,(x,y)->x^2+y^2)
+				#heatmap(x,y,(x,y)->x^2+y^2)
+				f(x,y) = x^2 + y^2
+				surface(x,y,f.(x,y'))
+				contour(x,y,f.(x,y'))
+				heatmap(x,y,f.(x,y'))
+			\end{jllisting}
+		\end{Boxx}		
+		
+		
+		\column{.3\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{images_data/surf}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Examples}
 Each of these commands can be expressed in-line with the plotting command or beforehand within a call to the plotting backend.
 \begin{description}[leftmargin=*,align=right]
 	\item[font(fontname,size)] Defines a Font object with a given size
@@ -557,7 +640,12 @@ Each of these commands can be expressed in-line with the plotting command or bef
 	histogram(data.lat)
 	
 	\end{jllisting}
+	
 \end{Boxx}		
+
+
+	\centering \includegraphics[width=0.5\linewidth]{images_data/plot_final}
+
 		
 \end{frame}
 
@@ -567,21 +655,22 @@ Each of these commands can be expressed in-line with the plotting command or bef
 	
 \begin{Boxx}
 \begin{jllisting}	
-	using Plots, Images, ImageMagick, DataFrames, CSV,Shapefile
-
-	data = DataFrame(CSV.File("simplemaps-worldcities-basic.csv"))
-
-	shp = Shapefile.shapes(Shapefile.Table("ne_110m_coastline.shp"));
-
-	p3 = histogram(data.lng,bins=200,xticks = (-200:25:200));
-	p2 = plot(shp,xlim=(-200,200),ylim=(-100,100));
-	p2_size = p2.attr.explicit[:size];
-	
-	p1 = histogram(data.lat,bins=200,ylim = (-100,100),
-		orientation=:horizontal,aspect_ratio=p2_size[1]/p2_size[2]);
-	
-	plot(p1,p2,p3,p3,
-		layout= layout=@layout [[a{0.2w} b{0.8h}]; [c d]])
+ using Plots, Images, ImageMagick, DataFrames, CSV,Shapefile
+ 
+ data = DataFrame(CSV.File("simplemaps-worldcities-basic.csv"))
+ 
+ shp = Shapefile.shapes(Shapefile.Table("ne_110m_coastline.shp"));
+ 
+ p3 = histogram(data.lng,bins=200,xticks = (-200:25:200),label=false);
+ p2 = plot(shp,xlim=(-200,200),ylim=(-100,100));
+ p2_size = p2.attr.explicit[:size];
+ 
+ p1 = histogram(data.lat,bins=200,ylim = (-100,100),
+ 	orientation=:horizontal,
+ 	aspect_ratio=p2_size[1]/p2_size[2],label=false);
+ 
+ plot(p1,p2,p3,p3,
+ 	layout=@layout [[a{0.2w} b{0.8h}]; [c d]])
 
 	\end{jllisting}
 
