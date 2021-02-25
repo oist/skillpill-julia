@@ -237,7 +237,6 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
   It offers a programming environment that is well suited for explorative data analysis or prototyping.
   \begin{block}{Installation}
   \begin{Verbatim}
-  julia> ENV["JUPYTER"] = ""
   julia> ] add IJulia
     \end{Verbatim}
   \end{block}
@@ -363,13 +362,13 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 	\begin{block}{Solution}
 		\vspace*{1mm}
 		\begin{jllisting}[mathescape]
-  if (x > 0) error("x cannot be greater than 0") end
+  if (x > 0) (error("x cannot be greater than 0")) end
 	
   # Ternary operator		
-  x > 0 ? error("x cannot be greater than 0") : nothing
+  (x > 0) ? (error("x cannot be greater than 0")) : nothing
 			
   # Short-circuit evaluation
-  (x > 0) && error("x cannot be greater than 0")
+  (x > 0) && (error("x cannot be greater than 0"))
 		\end{jllisting}
 	\vspace*{1mm}
 	\end{block}
@@ -606,15 +605,15 @@ Additional advantage: Modules can be precompiled and saved to hard-drive which m
 	\item[Learning] \url{https://julialang.org/learning/}
 \end{description}
 \vfill
-OIST also has a Slack workspace: julia@oist
+OIST also has a Slack workspace: \href{https://join.slack.com/t/juliaoist/shared_invite/zt-n6apctg0-QEfCvMEFrldPtcn_2NztrQ}{\color{blue} julia@oist}
 \end{frame}
 \begin{frame}{What is next?}
-  \begin{block}{Question?!}
+  \begin{block}{Questions?!}
     What do you want to hear/learn more about?
   \end{block}
   \begin{description}
-    \item[Wednesday] How to use Julia for computation and plotting
-    \item[Friday] Problem sets and ???
+    \item[Wednesday] Arrays, data handling, plotting
+    \item[Friday] Workflow, data structures, coding practices, algorithms
   \end{description}
 \end{frame}
 
