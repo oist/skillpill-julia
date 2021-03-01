@@ -702,6 +702,51 @@ Each of these commands can be expressed in-line with the plotting command or bef
 \end{frame}
 
 
+\begin{frame}[fragile]{Animations}
+%%TODO include heatmap, surf, and contour
+
+		\begin{Boxx}
+		\begin{jllisting}
+
+	using Plots;
+	
+	ENV["GKSwstype"]="nul"	#Plots.backends()
+	
+	anim = Animation()
+	
+	x = range(0,stop=20*pi,length=200)
+	
+	p(w) = plot(x,[cos.(x) + cos.(w .* x)], xlims = (0, 20π), ylims = (-2, 2))
+	
+	for i in range(1,stop=1.25,length=100)
+		p(i)
+		frame(anim)
+	end
+	
+	gif(anim, "myanimation.gif", fps=15)
+
+			\end{jllisting}
+		\end{Boxx}		
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Examples}
+Each of these commands can be expressed in-line with the plotting command or beforehand within a call to the plotting backend.
+\begin{description}[leftmargin=*,align=right]
+	\item[font(fontname,size)] Defines a Font object with a given size
+	\item[size=(X,Y)] Sets size of plot to X by Y pixels
+	\item[xlabel=string] Sets X-Y labels to string, also ylabel
+	\item[title=string] Sets title to string, also colorbar\_title for heatmap.
+	\item[xtickfont=font] Sets the font of x tick marks, also ytickfont,titlefont,guidefont
+	\item[left\_margin=length] Sets margin for left side of plot, also top\_margin, bottom\_margin, and right\_margin
+	\item[xscale=:log10] Sets x scale to log10, also yscale
+\end{description}
+
+\end{frame}
+
+
 \begin{frame}[fragile]{Exercises}
 	\begin{block}{Exercise 3}
 		Read data.txt given in the Public Folder and plot the results.
@@ -816,3 +861,9 @@ Each of these commands can be expressed in-line with the plotting command or bef
 %	
 %\end{frame}
 \end{document}
+
+
+
+
+
+
