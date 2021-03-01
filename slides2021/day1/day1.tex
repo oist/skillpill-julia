@@ -270,7 +270,7 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
 \end{frame}
 \section{Language syntax and semantics}
 \begin{frame}[fragile]{Variables and datatypes}
-  Julia is a dynamic language and so you can create variables in any scope.
+  Julia is a dynamic language and you can simply create variables in any scope without specifying the type.
   \begin{Boxx}
   \begin{jllisting}
   x = 1   # x will be of type Int64
@@ -361,7 +361,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   end
   
   # Ternary operator: a ? b : c
-  rand() < 0.5 ? println("Gaston  is awesome!") : println("Juan  is awesome!")
+  s = rand() < 0.5 ? "Gaston  is awesome!" : "Juan  is awesome!"
 \end{jllisting}
 \end{Boxx}
 
@@ -442,7 +442,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 
 
 \begin{frame}[fragile]{Functions and lambdas}
-  Julia uses functions to organize operations. Every function is compiled for the combination of input parameter types.
+  Julia uses functions to organize operations. The first time a function is called it is compiled for the combination of its argument types.
   \begin{Boxx}
   \begin{jllisting}
   function f(x, y)
@@ -503,7 +503,7 @@ Keep in mind:~Julia is not an Object-Oriented programming language so functions 
 \begin{frame}[fragile]{Types}
 	\begin{overlayarea}{\linewidth}{9cm}
 	\begin{block}{Exercise}
-		Create a struct \verb|Point| with two field names \verb|x,y| both being of type Real. Implement a function \verb|add| that takes two arguments of type \verb|Point| and returns the sum of their \verb|x|s and the difference of their \verb|y|s.
+		Create a struct \verb|Point| with two field names \verb|x,y| both being of type Real. Implement a function \verb|add| that takes two arguments of type \verb|Point| and returns a new instance of Point holding the sum of the arguments fields \verb|x|s and the difference of their \verb|y|s.
 	\end{block}
 	\vfill
 	\begin{onlyenv}<2->
@@ -515,8 +515,8 @@ Keep in mind:~Julia is not an Object-Oriented programming language so functions 
     y::Real
   end
   
-  function add(arg1::Point, arg2::Point)
-    return arg1.x + arg2.x, arg1.y - arg2.y
+  function add(p1::Point, p2::Point)
+    return Point(p1.x + p2.x, p1.y - p2.y)
   end
 		\end{jllisting}
 		\vspace*{1mm}
