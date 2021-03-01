@@ -108,15 +108,15 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title[Skill Pill]{Skill Pill: Julia} % The short title appears at the bottom of every slide, the full title is only on the title page
-\subtitle{Lecture 2: Data Processing and Plotting}
+\title[Skill Pill]{
+Skill Pill: Julia\\
+\small
+Lecture 2: Data Processing and Plotting} % The short title appears at the bottom of every slide, the full title is only on the title page
 
-\author[Juan Polo]{Juan Polo {\tiny $\Bigg\{$ \parbox{2cm}{\centering material taken/based on Ankur Dhar \& James Schloss}$\Bigg\}$}} % Your name
+\author[Juan Polo]{\vspace{-0.75cm} \underline{Juan Polo}, Friederike, Gaston {\tiny $\Bigg\{$ \parbox{2cm}{\centering material taken/based on Ankur Dhar \& James Schloss}$\Bigg\}$}} % Your name
 \institute[OIST] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
 {
 	\textit{juan.polo@oist.jp} \\ % Your institution for the title page
-	\textit{\tiny ankurd@oist.jp} \\ % Your institution for the title page
-	\textit{\tiny james.schloss@oist.jp} % Your email address
 }
 \date{\vspace*{-0.5cm}\\ February 24th, 2021} % Date, can be changed to a custom date
 
@@ -140,6 +140,34 @@
   \tableofcontents
 \end{frame}
 \section{Arrays}
+
+
+
+\begin{frame}[fragile]{Installing the plotting packages}
+
+\begin{block}{Plots and Pyplot}
+
+{\color{red} \verb|] add Plots|}
+
+{\color{red} \verb|] add PyPlot|}
+
+
+{\color{red} \verb|using Plots|}
+
+{\color{red} \verb|import PyPlot|}
+
+
+
+\end{block}
+
+
+\end{frame}
+
+
+
+
+
+
 \begin{frame}[fragile]{Creating Arrays}
 	Arrays in Julia are defined using square brackets {\color{red}\verb|[ ]|}
 	
@@ -225,6 +253,9 @@
 	\vspace*{0.5cm}
 	\fbox{\textbf{\color{red} Multiply all elements of "x" by a constant "2" (careful with spaces)}}
 	\pause
+	
+	\vspace*{0.5cm}
+	
 	\centering {\color{red}\Huge \verb|2 .* x|}
 	
 \end{frame}
@@ -284,7 +315,8 @@
 \end{frame}
 
 \begin{frame}[fragile]{File Structure}
-	To begin working with files, you must know where your working directory is. When launching Julia from an application menu (Windows/MacOS), the default directory is predefined. For Linux it will be the home directory. 
+	To \textbf{p}rint you current \textbf{w}orking \textbf{d}irectory {\color{red} pwd()}
+
   \begin{Boxx}
   \begin{jllisting}
 	pwd()
@@ -292,7 +324,10 @@
 	readdir()
 	\end{jllisting}
   \end{Boxx}
-	You can use \verb|pwd()| to print your working directory, and \verb|cd()| to change it to whichever new directory you would like.	Once you are in the directory you want, you can list the files within using \verb|readdir()|.
+	Change you current directory {\color{red}\verb|cd("String")|} 
+	
+	List the files within using {\color{red}\verb|readdir()|}
+	
 \end{frame}
 
 %~ \begin{frame}[fragile]{Writing Scripts}
@@ -305,7 +340,11 @@
 %~ \end{frame}
 
 \begin{frame}[fragile]{Delimited text}
-	The simplest data files are often delimited text files or CSV files, which can be manipulated like any other variable in Julia. To load any general delimited file, load the DelimitedFiles package. Reading in these files will automatically generate 1D or 2D arrays depending on the data being read in.
+	
+	The simplest data files are delimited text files or CSV files
+	
+	Requires to load a library {\color{red}DelimitedFiles}
+	\vspace*{0.25cm}
 	
 	\begin{lstlisting}
 	julia> using DelimitedFiles
@@ -316,10 +355,19 @@
 	
 \vspace*{0.5cm}
 	Similarly, any 1D or 2D can be written to a file, with the actual delimiter being based on the file extension used (txt for space and csv for comma).
+	
+\pause
+\vspace*{0.5cm}
+	Hierarchical Data Format (HDF5) can be an interesting format to save arrays and data.
+	
 \end{frame}
 
 \begin{frame}[fragile]{CSV files}
-	Typical CSV files are a bit more complex than standard delimited files, with headers or labels. For this use case the CSV package is recommended. When reading in a file, the first row will be taken as the header row, but this can be explicitly defined.
+	CSV files are a bit more complex than standard delimited files, including headers or labels. 
+	
+	A specific library can be loaded {\color{red}CSV}. 
+	
+	The first row will be taken as the header row (this can be explicitly defined)
 
   \begin{Boxx}
   \begin{jllisting}
@@ -389,7 +437,7 @@
 \begin{frame}[fragile]{Plots in a Nutshell}
 	\begin{minipage}{0.6\linewidth}
 		%~ \column{.6\linewidth}
-			To start with, let's add and load the general Plots package
+			Let's add and load the general Plots package
 		\begin{Boxx}
 		\begin{jllisting}
 					# inside pkg>
@@ -532,6 +580,46 @@
 		\end{Boxx}	
 
 
+        \begin{picture}(0,0)
+            \put(285,120){%
+                \includegraphics[width=0.15\textwidth]{images_data/plot_rand}%
+            }
+        \end{picture}
+        
+        \begin{picture}(0,0)
+            \put(285,70){%
+                \includegraphics[width=0.15\textwidth]{images_data/plot_grid_3_1}%
+            }
+        \end{picture}
+        
+        \begin{picture}(0,0)
+            \put(285,40){%
+                \includegraphics[width=0.15\textwidth]{images_data/plot_grid_1_2_1}%
+            }
+        \end{picture}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Examples of plots}
+
+				
+		\begin{Boxx} 
+		\begin{jllisting}
+	using Plots; import PyPlot; plt = PyPlot;
+	# Import avoids conflicts, however PyPlot.XXX or plt.XXX is need to use that library
+
+	# Plot with two insets
+	plot(1:20)		
+	plot!((-10:10).^2, inset = (1, bbox(0.1,0.0,0.4,0.4)), subplot = 2)
+	plot!(-(-10:10).^2, inset = (1, bbox(0.6,0.5,0.4,0.4)), subplot = 3)
+	
+			
+			\end{jllisting}
+		\end{Boxx}	
+
+\centering \includegraphics[width=0.45\linewidth]{images_data/plot_insets}
+
 \end{frame}
 
 
@@ -562,6 +650,11 @@
 			\end{jllisting}
 		\end{Boxx}	
 
+        \begin{picture}(0,0)
+            \put(170,40){%
+                \includegraphics[width=0.55\textwidth]{images_data/plot_pyplot}%
+            }
+        \end{picture}
 
 \end{frame}
 
@@ -615,7 +708,7 @@ Each of these commands can be expressed in-line with the plotting command or bef
 		What do you see?
 	\end{block}
 	\begin{block}{Exercise 4}
-		Plot a histogram of the longitudes of the world's cities. What is the mean and median longitude?
+		Plot a histogram of the longitudes and latitudes of the world's cities. 
 		{\color{red}\footnotesize 
 		
 		\verb|using Plots, DataFrames, CSV|
@@ -641,10 +734,14 @@ Each of these commands can be expressed in-line with the plotting command or bef
 	
 	\end{jllisting}
 	
+	
+	
 \end{Boxx}		
 
 
-	\centering \includegraphics[width=0.5\linewidth]{images_data/plot_final}
+\centering \includegraphics[width=0.475\textwidth]{images_data/histogram}%
+\includegraphics[width=0.475\linewidth]{images_data/plot_final}%
+
 
 		
 \end{frame}
@@ -694,10 +791,16 @@ Each of these commands can be expressed in-line with the plotting command or bef
 \end{frame}
 
 
+%~ \begin{frame}{Other libraries}
+  %~ \begin{description}
+    %~ \item[Seaborn.jl (Python)] A Julia wrapper around the Seaborn data visualization library:
+  %~ \end{description}
+%~ \end{frame}
+
+
 \begin{frame}{What is next?}
   \begin{description}
-    \item[Last Session] Problem Sets with James
-    \item[Also next week] Advanced Topics with Valentin!
+    \item[Last Session (Gaston)] IDEs, Data Structures, Coding Practices, and Algorithms
   \end{description}
 \end{frame}
 %\begin{frame}[fragile]{Using Fortran and C in Julia}
