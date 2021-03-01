@@ -108,18 +108,29 @@
 \end{frame}
 \section{Introduction}
 
-\subsection{Why does Julia exist}
+\subsection{Why does Julia exist?}
 \iffalse
 \begin{frame}{Why does Julia exist?}
 %  \pause
   \begin{block}{Key Points}
     \begin{enumerate}
-    	   	
+   	\item Julia is a general-purpose programming language, but it was specifically developed for researchers and data scientists.
       \item Low-level languages are fast, but high level languages are readable.
       \item Recent advances in compiler design could bridge these two aspects.
       \item Julia is being openly developed by researchers, for researchers.
     \end{enumerate}
   \end{block}
+
+\begin{block}{What problems does it try to solve?}
+	\begin{enumerate}
+	
+		\item Low-level languages are fast, but high level languages are readable.
+		\item Recent advances in compiler design could bridge these two aspects.
+		\item Julia is being openly developed by researchers, for researchers.
+	\end{enumerate}
+\end{block}
+
+
 %\pause
   The old mission statement is available \href{https://julialang.org/blog/2012/02/why-we-created-julia}{\color{blue} here} and some good discussion is available at \href{https://discourse.julialang.org/t/julia-motivation-why-werent-numpy-scipy-numba-good-enough/2236/}{\color{blue} here}. 
 %\pause
@@ -133,24 +144,27 @@
 \begin{frame}{Why does Julia exist?}
 	%  \pause
 	\begin{block}{Key Points}
+		\vspace*{2mm}
 		\begin{enumerate}
-			
-			\item Low-level languages are fast, but high level languages are readable.
-			\item Recent advances in compiler design could bridge these two aspects.
-			\item Julia is being openly developed by researchers, for researchers.
+			\item Julia is a \textbf{general-purpose} programming language, but it was specifically developed for \textbf{researchers} and data scientists.\itemsep=3mm
+			\item Low-level languages are fast, but high-level languages are readable.
+			\item Julia tries to be both: \textbf{high-level} and \textbf{fast} by taking advantage of recent advances in compiler design.% could bridge these two aspects.
+			\item Julia is \textbf{free} and \textbf{open source}.
 		\end{enumerate}
+	\vspace*{1mm}
 	\end{block}
 	%\pause
-	The old mission statement is available \href{https://julialang.org/blog/2012/02/why-we-created-julia}{\color{blue} here} and some good discussion is available at \href{https://discourse.julialang.org/t/julia-motivation-why-werent-numpy-scipy-numba-good-enough/2236/}{\color{blue} here}. 
+	\vspace*{3mm}
+	The old mission statement is available \href{https://julialang.org/blog/2012/02/why-we-created-julia}{\color{blue} here} and some good discussion is available \href{https://discourse.julialang.org/t/julia-motivation-why-werent-numpy-scipy-numba-good-enough/2236/}{\color{blue} here}. 
 	%\pause
-	\begin{block}{What kind of language is Julia then?}
-		Julia is a general-purpose, high-level, high-performance, dynamic programming language. It supports parametric polymorphism with multiple dispatch at its core. By default Julia compiles to machine code using "just-ahead-of-time" (JAOT) compilation.
-	\end{block}
+	%\begin{block}{What kind of language is Julia then?}
+	%	Julia is a general-purpose, high-level, high-performance, dynamic programming language. It supports parametric polymorphism with multiple dispatch at its core. By default Julia compiles to machine code using "just-ahead-of-time" (JAOT) compilation.
+	%\end{block}
 	
 \end{frame}
 
 
-\subsection{What is wrong with the status quo}
+\subsection{What is wrong with the status quo?}
 \begin{frame}{The other contenders}
   The typical languages used in science are
   \begin{enumerate}
@@ -158,49 +172,52 @@
     \item Matlab
     \item R
   \end{enumerate}
-
-  Once a problem is becoming to big we usually move to
+\vspace*{3mm}
+  Once a problem is becoming too big we usually move to
   \begin{enumerate}
     \item C/C++
     \item Fortran
   \end{enumerate}
+\vspace*{3mm}
   This is called the 2+ language problem and Julia is trying to solve that.
 \end{frame}
 
 \begin{frame}{Python and Numpy}
   \begin{itemize}
-    \item The compilers that exist (Numba) only work on primitive types and not user defined ones.
-    \item GIL (Global Interpreter Lock) mask multi-threading hard.
+    \item The compilers that exist (Numba) only work on primitive types and not user defined ones.\itemsep=2mm
     \item For fast code you need to write it in C.
-    \item Numpy is great, but awful syntax for math.
+    \item GIL (Global Interpreter Lock) makes multi-threading hard.
+    \item Numpy is great, but syntax for math is not optimal.
   \end{itemize}
+\vspace*{3mm}
+\begin{block}{Julia}
+	\begin{itemize}
+		\item uses a ``just-ahead-of-time'' compiler by default\itemsep=2mm
+		\item provides parallelism out of the box
+		\item excels at numerical computing with a syntax that is great for math
+	\end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}{Matlab}
   \begin{itemize}
-    \item It costs a lot of money and is not open-source.
+    \item It costs a lot of money and is not open-source.\itemsep=3mm
     \item Matlab will only be fast for a subset of operations.
     \item Matlab tends to hide the computer from the programmer.
   \end{itemize}
+\vspace*{3mm}
+\begin{block}{Julia}
+	\begin{itemize}
+		\item is open-source\itemsep=2mm
+		\item is a general-purpose language and fast for ``everything''
+	\end{itemize}
+\end{block}
+
 \end{frame}
 
 \begin{frame}{A (biased) performance comparison}
   \center
   \includegraphics[width=\linewidth]{benchmarks}
-\end{frame}
-
-\begin{frame}{Summary}
-	\textbf{Julia}
-	\begin{itemize}
-		\item is a dynamic language (Julia is easy to use) while having the advantages of static languages (Julia is fast)
-		\item solves the two language problem
-		\item is open-source
-		\item supports parallel and distributed code execution
-		\item is written in Julia (no dependencies to other languages)
-		\item can call other languages
-		\item is made for researchers (but it can do much more)
-		\item comes with many more smart and useful design choices
-	\end{itemize}
 \end{frame}
 
 \section{Getting started}
@@ -224,7 +241,7 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
   \end{block}
 \end{frame}
 \begin{frame}{IDEs}
-  There are two main IDEs that are \emph{feature} complete and can be used for Julia. The main one is based on \textbf{Atom} and is called \textbf{Juno} \url{http://junolab.org/}.
+  There are two main IDEs that are feature complete and can be used for Julia. The main one is based on \textbf{Atom} and is called \textbf{Juno} \url{http://junolab.org/}.
 
 \vspace{0.5cm}
   The second one is based on \textbf{Visual Studio Code }and available at \url{https://marketplace.visualstudio.com/items?itemName=julialang.language-julia}.
@@ -325,7 +342,7 @@ In the \verb|REPL| you can use \verb|?| to switch your \verb|REPL| mode into hel
 	\end{jllisting}
 \end{Boxx}
 
-Julia is 1-based indexing, not 0-based like Python!!!\\
+\textbf{Julia uses 1-based indexing, not 0-based like Python!}\\
 You can add or remove elements using \verb|push!| and \verb|pop!|.
 \end{frame}
 
@@ -336,9 +353,9 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   \begin{Boxx}
   \begin{jllisting}
   if rand() < 0.5
-    println("Gaston is awesome!")
-  elseif rand() >= 0.5
     println("Jeremie is awesome!")
+  elseif rand() >= 0.5
+    println("Gaston is awesome!")
   else
     println("Juan is awesome!")
   end
@@ -348,7 +365,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 \end{jllisting}
 \end{Boxx}
 
-\verb|&&| is the \verb|and| operator, $||$ is the \verb|or| operator.
+\verb|&&| is the logical \verb|and| operator, $||$ is the logical \verb|or| operator.
 \end{frame}
 
 
@@ -400,7 +417,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 \begin{frame}[fragile]{Loops}
 	\begin{overlayarea}{\linewidth}{8cm}
 \begin{block}{Exercise}
-	Create a dictionary that holds integers (up to the value 100) and their squares as key, value pairs.
+	Create a dictionary that holds integers (up to the value 100) as keys and their squares as values.
 \end{block}
 \vfill
 \begin{onlyenv}<2->
@@ -425,7 +442,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
 
 
 \begin{frame}[fragile]{Functions and lambdas}
-  Julia uses functions to organize operations. Every function is compiled for the combination of input parameters.
+  Julia uses functions to organize operations. Every function is compiled for the combination of input parameter types.
   \begin{Boxx}
   \begin{jllisting}
   function f(x, y)
@@ -440,7 +457,7 @@ You can add or remove elements using \verb|push!| and \verb|pop!|.
   map(x->x+2, [1, 2, 3])
   \end{jllisting}
 \end{Boxx}
-By convention, functions followed by ! alter their contents and functions lacking ! do not, e.g. \verb|sort()| vs. \verb|sort!()|.
+By convention, functions followed by ! modify their arguments and functions lacking ! do not, e.g. \verb|sort()| vs. \verb|sort!()|.
 \end{frame}
 
 \begin{frame}[fragile]{Types and multiple dispatch}
@@ -480,13 +497,13 @@ Multiple dispatch makes your code generic and fast!
   point.radius
   \end{jllisting}
 \end{Boxx}
-Keep in mind:~Julia is not an Object-Oriented programming language so functions do not belong to an object!
+Keep in mind:~Julia is not an Object-Oriented programming language so functions do not belong to a struct!
 \end{frame}
 
 \begin{frame}[fragile]{Types}
 	\begin{overlayarea}{\linewidth}{9cm}
 	\begin{block}{Exercise}
-		Create a struct \verb|Point| with two field names \verb|x,y| both being of type Real. Implement a function \verb|add| that takes two arguments of type \verb|Point| and returns the sum of their x's and the difference of their y's.
+		Create a struct \verb|Point| with two field names \verb|x,y| both being of type Real. Implement a function \verb|add| that takes two arguments of type \verb|Point| and returns the sum of their \verb|x|s and the difference of their \verb|y|s.
 	\end{block}
 	\vfill
 	\begin{onlyenv}<2->
@@ -515,7 +532,7 @@ Keep in mind:~Julia is not an Object-Oriented programming language so functions 
   # Specifying a return type will convert the returned value	
   g(x, y)::Int8 = x * y
   
-  # Varargs functions (variable number of arguments functions)
+  # Varargs (variable number of arguments)
   h(a,b,x...) = (a,b,x)
   
   # Optional arguments
@@ -537,7 +554,8 @@ Everything above can be combined arbitrarily, e.g. keyword arguments can be coll
 	\begin{Boxx}
  \begin{jllisting}
   # in your command prompt or terminal
-  julia script.jl
+  julia script.jl arg1 arg2...
+  # arguments will be placed in the global constant ARGS as a list of strings
   
   # inside the REPL
   include("script.jl")
@@ -551,7 +569,7 @@ Try to break your programs down into lots of small specialized functions to real
 
 
 \begin{frame}[fragile]{Modules}
-If your julia files are becoming too large, organize them into modules (namespaces). Module names are capitalised and you can also nest them.
+If your julia files are becoming too large, organize them into modules. Module names are capitalised and you can also nest them.
 \begin{Boxx}
   \begin{jllisting}
   module MyModule
@@ -568,7 +586,7 @@ If your julia files are becoming too large, organize them into modules (namespac
   using Main.MyModule
   \end{jllisting}
 \end{Boxx}
-Additional advantage: Modules can be precompiled and saved to hard-drive which means precompiled code won't disappear when closing the \verb|REPL|.
+Additional advantage: Modules can be precompiled and saved to a file which means precompiled code won't disappear when closing the \verb|REPL|.
 \end{frame}
 
 
@@ -607,6 +625,25 @@ Additional advantage: Modules can be precompiled and saved to hard-drive which m
 \vfill
 OIST also has a Slack workspace: \href{https://join.slack.com/t/juliaoist/shared_invite/zt-n6apctg0-QEfCvMEFrldPtcn_2NztrQ}{\color{blue} julia@oist}
 \end{frame}
+
+\iffalse
+\begin{frame}{Julia in a Nutshell}
+	\begin{block}{Julia}
+		\vspace*{2mm}
+		\begin{itemize}
+			\item is a dynamic language (Julia is easy to use) while having the advantages of static languages (Julia is fast)\itemsep=2mm
+			\item solves the two language problem
+			\item is open-source
+			\item supports parallel and distributed code execution
+			\item is written in Julia (no dependencies to other languages)
+			\item can call other languages (C, Python,...)
+			\item supports GPU computing
+		\end{itemize}
+	\vspace*{1mm}
+	\end{block}
+\end{frame}
+\fi
+
 \begin{frame}{What is next?}
   \begin{block}{Questions?!}
     What do you want to hear/learn more about?
