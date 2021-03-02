@@ -183,12 +183,14 @@ Lecture 2: Data Processing and Plotting} % The short title appears at the bottom
 \pause
   \begin{Boxx}
   \begin{jllisting}
-  	x = [1 2 3 4] 			# 1x4 Array{Int64,2}
-	y = collect(1:4) 		# 4-element Array{Int64,1}
-	z = [1, 2, 3, 4] 		# 4-element Array{Int64,1}
-	m = [1 2; 3 4]			# 2x2 Array{Int64,2}
-	w=x'						# 4x1 {Int64,Array{Int64,2}}
-	array = Int64[]		# 0-element Array{Int64,1}
+  x = [1 2 3 4] 			# 1x4 Array{Int64,2}
+  y = collect(1:4) 		# 4-element Array{Int64,1}
+  z = [1, 2, 3, 4] 		# 4-element Array{Int64,1}
+  m = [1 2; 3 4]			# 2x2 Array{Int64,2}
+  w=x'						# 4x1 {Int64,Array{Int64,2}}
+  array = Int64[]		# 0-element Array{Int64,1}
+  array2 = Array{Int64}(undef, 2, 2, 2)	# 2×2×2 Array{Int64,3}
+  array3 = [[1,2],[3,4,"5"]] # 2-element Array{Array{Int64,1},1}
 	\end{jllisting}
   \end{Boxx}
 	
@@ -202,7 +204,7 @@ Lecture 2: Data Processing and Plotting} % The short title appears at the bottom
 	%~ \end{lstlisting}
 
 	\pause
-	\vspace*{-0.15cm}
+	%~ \vspace*{-0.15cm}
 	\fbox{\textbf{\color{red} Please try to create a vector from 0 to 0.9 in steps of 0.1}}
 
 	\pause
